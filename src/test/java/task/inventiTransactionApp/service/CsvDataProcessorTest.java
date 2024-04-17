@@ -1,7 +1,5 @@
 package task.inventiTransactionApp.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -76,7 +74,7 @@ public class CsvDataProcessorTest {
         List<Transactions> result = csvDataProcessor.processCsvDataToList(csvData);
 
         assertEquals(1, result.size(), "List wrong size");
-        Transactions transaction = result.get(0);
+        Transactions transaction = result.getFirst();
         assertEquals(accountNumber1, transaction.getAccountNumber(), "Account number does not match");
         assertEquals(timestamp1, transaction.getOperationTime(), "Timestamp does not match");
         assertEquals(beneficiary1, transaction.getBeneficiary(), "Beneficiary does not match");

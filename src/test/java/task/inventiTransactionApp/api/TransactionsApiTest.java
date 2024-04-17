@@ -47,7 +47,7 @@ public class TransactionsApiTest {
         assertEquals(HttpStatus.OK, response.getStatusCode(), "HttpStatus does not match");
         assertEquals("text/csv", response.getHeaders().getContentType().toString(), "Content type does not match");
         assertEquals("attachment; filename=ExportData.txt",
-                response.getHeaders().get(HttpHeaders.CONTENT_DISPOSITION).get(0), "Header does not match");
+                response.getHeaders().get(HttpHeaders.CONTENT_DISPOSITION).getFirst(), "Header does not match");
         assertEquals(csvContent.toString(), response.getBody(), "File content does not match");
     }
 
