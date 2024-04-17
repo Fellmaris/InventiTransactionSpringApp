@@ -10,11 +10,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.*;
 
 @Service
 public class CsvDataProcessor {
+
+    private static final BigDecimal eurInUSD = new BigDecimal("0.94");
+    private static final BigDecimal eurInGBP = new BigDecimal("1.17");
+    private static final BigDecimal eurInCAD = new BigDecimal("0.68");
 
     @Autowired
     private TransactionsRepo transactionsRepo;
@@ -55,6 +60,24 @@ public class CsvDataProcessor {
             list.add(entity);
         }
         return list;
+    }
+
+    public BigDecimal calculateBalance (String accountNumber, Date startDate, Date endDate){
+        BigDecimal accountBalance = BigDecimal.ZERO;
+        List<Transactions> data = startDate != null && endDate != null
+                ? transactionsRepo.findByAccountNumberAndOperationTimeBetween(accountNumber, startDate, endDate)
+                : transactionsRepo.findAllByAccountNumber(accountNumber);
+        for (Transactions entity : data) {
+            BigDecimal exchangeRate = switch (entity.getCurrency()){
+                case "GBP" -> eurInGBP;
+                case "USD" -> eurInUSD;
+                case "CAD" -> eurInCAD;
+                case "EUR" -> BigDecimal.ONE;
+                default -> BigDecimal.ZERO;
+            };
+            accountBalance = accountBalance.add(entity.getAmount().multiply(exchangeRate));
+        }
+        return accountBalance.setScale(2, RoundingMode.HALF_DOWN);
     }
 
 }

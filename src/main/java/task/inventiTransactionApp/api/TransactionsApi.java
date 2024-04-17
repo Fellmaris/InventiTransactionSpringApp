@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import task.inventiTransactionApp.service.CsvDataProcessor;
 
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class TransactionsApi {
 
@@ -47,6 +49,16 @@ public class TransactionsApi {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to import CSV file: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/calculateBalance")
+    public ResponseEntity<String> calculateBalance(
+            @RequestParam(value = "accountNumber") String accountNumber,
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+        return  ResponseEntity.status(HttpStatus.OK).
+                body("Balance for " + accountNumber + " is: " +
+                        dataProcessor.calculateBalance(accountNumber, startDate, endDate) + "EUR");
     }
 
 }

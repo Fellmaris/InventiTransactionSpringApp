@@ -16,4 +16,8 @@ public interface TransactionsRepo extends JpaRepository<Transactions, Long> {
     boolean existsByAccountNumberAndOperationTimeAndBeneficiary(
             String accountNumber, Timestamp operationTime, String beneficiary);
 
+    List<Transactions> findByAccountNumberAndOperationTimeBetween(String accountNumber, Date startDate, Date endDate);
+
+    List<Transactions> findAllByAccountNumber(String accountNumber);
+
 }
