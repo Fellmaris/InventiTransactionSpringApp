@@ -51,7 +51,7 @@ public class CsvDataProcessor {
         List<Transactions> list = new ArrayList<>();
         for (String[] row: csvData) {
             Transactions entity = new Transactions();
-            entity.setAccounNumber(row[0]);
+            entity.setAccountNumber(row[0]);
             entity.setOperationTime(Timestamp.valueOf(row[1]));
             entity.setBeneficiary(row[2]);
             entity.setComment(row[3]);

@@ -44,12 +44,12 @@ public class Transactions {
         this.id = id;
     }
 
-    public String getAccounNumber() {
+    public String getAccountNumber() {
         return accountNumber;
     }
 
-    public void setAccounNumber(String accounNumber) {
-        this.accountNumber = accounNumber;
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public Timestamp getOperationTime() {
@@ -94,6 +94,6 @@ public class Transactions {
 
     @Override
     public String toString() {
-        return accountNumber + ',' + operationTime + ',' + beneficiary + ',' + comment + ',' + amount + ',' + currency + '\n';
+        return accountNumber + ',' + operationTime + ',' + beneficiary + ',' + comment + ',' + amount + ',' + currency + "\n";
     }
 }
